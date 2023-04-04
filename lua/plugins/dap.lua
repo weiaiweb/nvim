@@ -14,95 +14,117 @@ dap.configurations.python = {
 		name = "Launch file",
 		program = "${file}",
 		pythonPath = function()
-			return "/usr/local/bin/python3.10"
+			-- return "/usr/local/bin/python3.10"
+			-- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+			-- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
+			-- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
+			local cwd = vim.fn.getcwd()
+			if vim.fn.executable(cwd .. "/venv/bin/python3") == 1 then
+				return cwd .. "/venv/bin/python3"
+			elseif vim.fn.executable(cwd .. "/.venv/bin/python3") == 1 then
+				return cwd .. "/.venv/bin/python3"
+			else
+				return "/usr/local/bin/python3.10"
+			end
 		end,
 	},
 }
 
 ---------C,C++ --------------
-dap.adapters.lldb = {
+-- dap.adapters.lldb = {
+-- 	type = "executable",
+-- 	-- command = "/usr/local/opt/llvm/bin/lldb-vscode", -- adjust as needed, must be absolute path
+-- 	command = "lldb-vscode", -- adjust as needed, must be absolute path
+-- 	name = "lldb",
+-- }
+-- dap.configurations.cpp = {
+-- 	{
+-- 		name = "Launch",
+-- 		type = "lldb",
+-- 		request = "launch",
+-- 		program = function()
+-- 			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+--             -- return "${fileBasenameNoExtension}"
+-- 		end,
+-- 		cwd = "${workspaceFolder}",
+-- 		stopOnEntry = true,
+-- 		args = {},
+-- 		env = function()
+-- 			local variables = {}
+-- 			for k, v in pairs(vim.fn.environ()) do
+-- 				table.insert(variables, string.format("%s=%s", k, v))
+-- 			end
+-- 			return variables
+-- 		end,
+-- 	},
+-- }
+--
+-- -- If you want to use this for Rust and C, add something like this:
+-- dap.configurations.c = dap.configurations.cpp
+-- dap.configurations.rust = dap.configurations.cpp
+
+dap.adapters.cppdbg = {
+	id = "cppdbg",
 	type = "executable",
-	command = "/usr/local/opt/llvm/bin/lldb-vscode", -- adjust as needed, must be absolute path
-	name = "lldb",
+	-- command = '/Users/weiai/.local/share/nvim/mason/bin/OpenDebugAD7',
+	command = "OpenDebugAD7",
 }
+
 dap.configurations.cpp = {
 	{
-		name = "Launch",
-		type = "lldb",
+		name = "Launch file",
+		type = "cppdbg",
 		request = "launch",
 		program = function()
 			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
 		end,
 		cwd = "${workspaceFolder}",
-		stopOnEntry = true,
-		args = {},
-		env = function()
-			local variables = {}
-			for k, v in pairs(vim.fn.environ()) do
-				table.insert(variables, string.format("%s=%s", k, v))
-			end
-			return variables
+		stopAtEntry = true,
+	},
+	{
+		name = "Attach to gdbserver :1234",
+		type = "cppdbg",
+		request = "launch",
+		MIMode = "gdb",
+		miDebuggerServerAddress = "localhost:1234",
+		miDebuggerPath = "/usr/bin/gdb",
+		cwd = "${workspaceFolder}",
+		program = function()
+			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
 		end,
 	},
 }
 
--- If you want to use this for Rust and C, add something like this:
 dap.configurations.c = dap.configurations.cpp
 dap.configurations.rust = dap.configurations.cpp
 
--- dap.adapters.codelldb = {
---   type = 'server',
---   port = "${port}",
---   executable = {
---     -- CHANGE THIS to your path!
---     command = os.getenv("HOME") .. '/.local/share/nvim/mason/bin/codelldb',
---     args = {"--port", "${port}"},
---
---     -- On windows you may have to uncomment this:
---     -- detached = false,
---   }
--- }
--- dap.configurations.cpp = {
---   {
---     name = "Launch file",
---     type = "codelldb",
---     request = "launch",
---     program = function()
---       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
---     end,
---     cwd = '${workspaceFolder}',
---     stopOnEntry = true,
---   },
--- }
--- dap.configurations.c = dap.configurations.cpp
--- dap.configurations.rust = dap.configurations.cpp
-
-------------------- javascript/node---------------------
+---------------javascript----------
 dap.adapters.node2 = {
-  type = 'executable',
-  command = 'node',
-  args = {os.getenv('HOME') .. '/dev/microsoft/vscode-node-debug2/out/src/nodeDebug.js'},
+	type = "executable",
+	command = "node-debug2-adapter",
+	-- args = {os.getenv('HOME') .. '/dev/microsoft/vscode-node-debug2/src/nodeDebug.ts'},
 }
 dap.configurations.javascript = {
-  {
-    name = 'Launch',
-    type = 'node2',
-    request = 'launch',
-    program = '${file}',
-    cwd = vim.fn.getcwd(),
-    sourceMaps = true,
-    protocol = 'inspector',
-    console = 'integratedTerminal',
-  },
-  {
-    -- For this to work you need to make sure the node process is started with the `--inspect` flag.
-    name = 'Attach to process',
-    type = 'node2',
-    request = 'attach',
-    processId = require'dap.utils'.pick_process,
-  },
+	{
+		name = "Launch",
+		type = "node2",
+		request = "launch",
+		program = "${file}",
+		cwd = vim.fn.getcwd(),
+		sourceMaps = true,
+		protocol = "inspector",
+		console = "integratedTerminal",
+	},
+	{
+		-- For this to work you need to make sure the node process is started with the `--inspect` flag.
+		name = "Attach to process",
+		type = "node2",
+		request = "attach",
+		processId = require("dap.utils").pick_process,
+	},
 }
 
+-----------------icon------------
 local dap_breakpoint_color = {
 	breakpoint = {
 		ctermbg = 0,
