@@ -34,6 +34,11 @@ return require("packer").startup(function(use)
 	-- 主题
 	use("folke/tokyonight.nvim")
 	use("ellisonleao/gruvbox.nvim")
+    use("joshdick/onedark.vim")
+    use { "catppuccin/nvim", as = "catppuccin" }
+    use("savq/melange-nvim")
+    -- use("EdenEast/nightfox.nvim")
+    -- use("shaunsingh/nord.nvim")
 	-- 状态栏
 	use({
 		"nvim-lualine/lualine.nvim",
@@ -79,8 +84,9 @@ return require("packer").startup(function(use)
 	use("hrsh7th/cmp-path") -- 文件路径
 	use("hrsh7th/cmp-buffer")
 	use("hrsh7th/cmp-cmdline")
-	-- git提示
+	-- git提示, git变更查看
 	use("lewis6991/gitsigns.nvim")
+    use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 	-- lspsaga
 	use({
 		"glepnir/lspsaga.nvim",
@@ -92,6 +98,7 @@ return require("packer").startup(function(use)
 	})
 	-- 格式化
 	use("sbdchd/neoformat")
+    use("mhartington/formatter.nvim")
 	-- mardowm预览
 	use({
 		"iamcco/markdown-preview.nvim",
@@ -105,6 +112,7 @@ return require("packer").startup(function(use)
 	use("mfussenegger/nvim-dap")
 	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
 	use("theHamsta/nvim-dap-virtual-text")
+
     -- latex
     -- use("lervag/vimtex")
     -- 代码运行

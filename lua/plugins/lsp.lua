@@ -23,30 +23,19 @@ require("mason-lspconfig").setup({
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-require("lspconfig").lua_ls.setup {
-  capabilities = capabilities,
+local servers = {
+    lua_ls = require("lspconfig").lua_ls,
+    pyright = require("lspconfig").pyright,
+    vtsls = require("lspconfig").vtsls,
+    vimls = require("lspconfig").vimls,
+    html = require("lspconfig").html,
+    cssls = require("lspconfig").cssls,
+    jsonls = require("lspconfig").jsonls,
 }
 
-require("lspconfig").pyright.setup {
-  capabilities = capabilities,
-}
+for name, config in pairs(servers) do
+    config.setup {
+        capabilities = capabilities,
+    }
+end
 
-require("lspconfig").vtsls.setup {
-  capabilities = capabilities,
-}
-
-require("lspconfig").vimls.setup {
-  capabilities = capabilities,
-}
-
-require("lspconfig").html.setup {
-  capabilities = capabilities,
-}
-
-require("lspconfig").cssls.setup {
-  capabilities = capabilities,
-}
-
-require("lspconfig").jsonls.setup {
-  capabilities = capabilities,
-}

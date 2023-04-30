@@ -49,8 +49,8 @@
           offsets = {
               {
                   filetype = "NvimTree",
-                  text = "FILE EXPLORER",  -- | function ,
-                  text_align = "center",     -- "left" | "center" | "right"
+                  text = "File Explorer",  -- | function ,
+                  text_align = "left",     -- "left" | "center" | "right"
                   separator = true
               }
           },

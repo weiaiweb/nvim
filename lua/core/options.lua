@@ -40,7 +40,7 @@ opt.fillchars:append("eob: ")
 -- 外观
 opt.termguicolors = true
 opt.signcolumn = "yes"
-vim.cmd [[colorscheme gruvbox]]
+vim.cmd [[colorscheme tokyonight-storm]]
 
 -- 编码
 vim.g.encoding = 'utf-8'

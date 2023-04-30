@@ -58,7 +58,13 @@ require('dashboard').setup({
         keymap = 'SPC f h',
         action = 'Telescope help_tags'
       },
-
+      {
+        icon = ' ',
+        desc = 'Edit .zprofile',
+        key = 'E',
+        keymap = 'SPC e z',
+        action = 'edit ~/.zprofile'
+      },
     },
     footer = {}  --your footer
   }

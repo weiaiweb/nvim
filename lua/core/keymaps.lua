@@ -27,6 +27,7 @@ keymap.set("n", "<leader>nh", ":nohl<CR>")
 keymap.set("n", "<leader><right>", ":bnext<CR>")
 keymap.set("n", "<leader><left>", ":bprevious<CR>")
 
+
 -- ---------- 插件 ---------- ---
 -- nvim-tree
 keymap.set("n", "<leader>ft", ":NvimTreeToggle<CR>")
@@ -44,9 +45,13 @@ keymap.set('n', '<leader>fg', ":Telescope live_grep<CR>")
 keymap.set('n', '<leader>fb', ":Telescope buffers<CR>")
 keymap.set('n', '<leader>fh', ":Telescope help_tags<CR>")
 keymap.set('n', '<leader>fc', ":Telescope colorscheme<CR>")
+keymap.set('n', '<leader>fs', ":Telescope current_buffer_fuzzy_find<CR>")
+
+-- dashboard
+keymap.set('n', '<leader>ez', ":edit ~/.zprofile<CR>")
 
 -- dap
-keymap.set('n', '<F6>', function() require('dap').continue() end)
+keymap.set('n', '<F5>', function() require('dap').continue() end)
 keymap.set('n', '<F10>', function() require('dap').step_over() end)
 keymap.set('n', '<F11>', function() require('dap').step_into() end)
 keymap.set('n', '<F12>', function() require('dap').step_out() end)
@@ -78,4 +83,7 @@ keymap.set('n', '<leader>lp', ':RunProject<CR>', { noremap = true, silent = fals
 keymap.set('n', '<leader>lc', ':RunClose<CR>', { noremap = true, silent = false })
 keymap.set('n', '<leader>crf', ':CRFiletype<CR>', { noremap = true, silent = false })
 keymap.set('n', '<leader>crp', ':CRProjects<CR>', { noremap = true, silent = false })
+
+-- Formatter
+keymap.set('n', '<leader>mf', ':Format<CR>')
 
